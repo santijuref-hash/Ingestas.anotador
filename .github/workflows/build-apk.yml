@@ -39,6 +39,37 @@ jobs:
         run: npm run build
       - name: Add Android project
         run: npx cap add android
+      - name: Generate Android launcher icon (upright fork and spoon)
+        run: |
+          python -m pip install --quiet pillow
+          cat > /tmp/make_icon.py <<'PY'
+          from PIL import Image, ImageDraw
+          import os
+          S=512
+          im=Image.new("RGB",(S,S),(244,241,230))
+          d=ImageDraw.Draw(im)
+          # Subtle inset tile
+          d.rounded_rectangle((18,18,494,494),radius=112,fill=(244,241,230))
+          ink=(25,67,78)
+          accent=(38,139,129)
+          # Upright fork on the left
+          d.rounded_rectangle((177,220,207,426),radius=15,fill=ink)
+          d.rounded_rectangle((163,153,221,246),radius=18,fill=ink)
+          for x in (166,181,196,211):
+              d.rounded_rectangle((x,91,x+10,178),radius=5,fill=accent)
+          # Upright spoon on the right: oval bowl and slim handle
+          d.rounded_rectangle((301,216,329,426),radius=14,fill=ink)
+          d.ellipse((266,82,364,237),fill=accent)
+          d.ellipse((282,99,348,218),fill=(244,241,230))
+          d.rounded_rectangle((301,214,329,426),radius=14,fill=ink)
+          os.makedirs('/tmp/ingestas-icons',exist_ok=True)
+          for name,size in [('mipmap-mdpi',48),('mipmap-hdpi',72),('mipmap-xhdpi',96),('mipmap-xxhdpi',144),('mipmap-xxxhdpi',192)]:
+              out=im.resize((size,size),Image.Resampling.LANCZOS)
+              os.makedirs('android/app/src/main/res/'+name,exist_ok=True)
+              out.save('android/app/src/main/res/'+name+'/ic_launcher.png')
+              out.save('android/app/src/main/res/'+name+'/ic_launcher_round.png')
+          PY
+          python /tmp/make_icon.py
       - name: Sync Capacitor
         run: npx cap sync android
       - name: Set up Java
