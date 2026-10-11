@@ -16,3 +16,30 @@
 
 /* Identidad visual: comida + anotador */
 .logo{position:relative}.logo .logo-note{position:absolute;right:1px;bottom:0;width:16px;height:16px;padding:2px;border-radius:5px;background:var(--panel);color:var(--teal);box-sizing:content-box}.logo>svg:first-child{width:23px;height:23px}.share-btn{margin:0 0 13px}.share-intro{font-size:11px;line-height:1.65;margin:8px 0 13px}.share-config{border-top:1px solid var(--line);padding:13px 0 2px;margin-top:12px;display:flex;flex-direction:column;gap:12px}.share-config label{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:12px}.share-config label:first-child span{display:flex;flex-direction:column;gap:4px}.share-config label b{font-size:12px;color:var(--text,#e9e6f8)}.share-config label small{font-size:10px;color:var(--muted)}.share-config input[type=time]{max-width:135px;background:var(--panel);color:inherit;border:1px solid var(--line);border-radius:9px;padding:8px}.share-config input[type=checkbox]{width:19px;height:19px;accent-color:var(--teal)}.theme-light .share-config label b{color:#29273d}
+
+
+/* Acabado final: movimiento sutil, feedback y accesibilidad */
+@keyframes page-enter{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes soft-pop{0%{opacity:0;transform:scale(.96)}100%{opacity:1;transform:scale(1)}}
+@keyframes logo-breathe{0%,100%{box-shadow:0 0 0 0 #9778ff00}50%{box-shadow:0 0 0 5px #9778ff0c}}
+@keyframes toast-enter{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+main{animation:page-enter .34s cubic-bezier(.2,.7,.2,1) both}
+.welcome .orb{animation:soft-pop .45s ease-out both}
+.logo{animation:logo-breathe 4s ease-in-out infinite}
+.feature,.meal-card,.med,.row,.setting,.progress,.datebar{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background-color .2s ease}
+.feature:hover,.meal-card:hover,.row:hover{transform:translateY(-2px);border-color:#9778ff65;box-shadow:0 8px 24px #00000012}
+.primary,.quiet,.dangerbtn,.icon,.nav button,.theme-options button{transition:transform .16s ease,filter .16s ease,background-color .2s ease,border-color .2s ease}
+button:active{transform:scale(.98)}
+.primary:hover{filter:brightness(1.08)}
+.quiet:hover,.icon:hover{border-color:#9778ff75;background:#9778ff10}
+.nav button.active svg{filter:drop-shadow(0 0 5px #9778ff35)}
+.meal-card-done .meal-art,.med-taken .medsymbol{transition:transform .25s ease}
+.meal-card-done:hover .meal-art,.med-taken:hover .medsymbol{transform:scale(1.05)}
+.backdrop{animation:soft-pop .18s ease-out both;backdrop-filter:blur(5px)}
+.modal{animation:page-enter .24s cubic-bezier(.2,.7,.2,1) both}
+.toast{animation:toast-enter .22s ease-out both}
+input,textarea,select{transition:border-color .18s ease,box-shadow .18s ease}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--purple);outline-offset:3px}
+@media(hover:none){.feature:hover,.meal-card:hover,.row:hover{transform:none;box-shadow:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+.theme-light .feature:hover,.theme-light .meal-card:hover,.theme-light .row:hover{box-shadow:0 8px 24px #33245f0d}
